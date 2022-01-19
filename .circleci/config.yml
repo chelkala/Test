@@ -1,20 +1,21 @@
-orbs:
-  node: circleci/node@2.0.2
-  aws-cli: circleci/aws-cli@2.0.0
-jobs:
-  Test:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Test.
-          command: ssh ec2-user@ec2-13-235-68-44.ap-south-1.compute.amazonaws.com 'echo "ash"';
-          command: ssh ec2-user@ec2-13-235-68-44.ap-south-1.compute.amazonaws.com 'mkdir test.txt';
 version: 2.1
+
+# Define the jobs we want to run for this project
+jobs:
+  pull-and-build:
+    docker:
+      - image: arvindr226/alpine-ssh
+    steps:
+      - checkout
+      - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
+
+# Orchestrate our job run sequence
 workflows:
-  build_and_deploy:
+  version: 2
+  build-project:
     jobs:
-      - Test:
+      - pull-and-build:
           filters:
             branches:
-              only: main
+              only:
+                - main
