@@ -6,11 +6,10 @@ jobs:
     docker:
       - image: arvindr226/alpine-ssh
     steps:
-      - run:
-         name: test
-         backgroundcommand: ssh ec2-ubuntu@ec2-13.235.68.44.ap-south-1.compute.amazonaws.com 'echo "ash"';
-         command: ssh ec2-ubuntu@172-31-11-238.ap-south-1.compute.amazonaws.com 'mkdir test.txt';
-version: 2.1
+      - checkout
+      - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
+
+# Orchestrate our job run sequence
 workflows:
   version: 2
   build-project:
