@@ -8,14 +8,14 @@ jobs:
     steps:
       - run:
           name: Test.
-          command: ssh ec2-user@ec2-3-111-34-243.ap-south-1.compute.amazonaws.com 'echo "wellcome to innobit" ';
+          command: ssh ubuntu@13.235.68.44 'echo "wellcome to innobit" ';
   QA:
     machine:
       enabled: true
     steps:
       - run:
           name: Test-QA.
-          command: ssh ec2-user@ec2-3-111-34-243.ap-south-1.compute.amazonaws.com 'echo "wellcome to devops" ';
+          command: ssh ubuntu@13.235.68.44 'echo "wellcome to devops" ';
 version: 2.1
 workflows:
   build_and_deploy:
