@@ -8,14 +8,14 @@ jobs:
     steps:
       - run:
           name: Test.
-          command: ssh ubuntu@13.235.68.44 'echo "wellcome to innobit" ';
+          command: ssh -o StrictHostKeyChecking=no -v ubuntu@13.235.68.44 'echo "wellcome to innobit" ';
   QA:
     machine:
       enabled: true
     steps:
       - run:
           name: Test-QA.
-          command: ssh ubuntu@13.235.68.44 'echo "wellcome to devops" ';
+          command: ssh -o StrictHostKeyChecking=no -v ubuntu@13.235.68.44 'echo "wellcome to devops" ';
 version: 2.1
 workflows:
   build_and_deploy:
