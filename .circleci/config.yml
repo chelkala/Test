@@ -1,32 +1,21 @@
-orbs:
-  node: circleci/node@2.0.2
-  aws-cli: circleci/aws-cli@2.0.0
-jobs:
-  Test:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Test.
-          command: ssh -o StrictHostKeyChecking=no -v ubuntu@13.235.68.44 'echo "wellcome to innobit" ';
-  QA:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Test-QA.
-          command: ssh -o StrictHostKeyChecking=no -v ubuntu@13.235.68.44 'echo "wellcome to devops" ';
 version: 2.1
+
+orbs:
+  aws-ecs: circleci/aws-ecs@2.2.1
+
 workflows:
-  build_and_deploy:
+# Log into AWS, build and push image to Amazon ECR
+  build_and_push_image:
     jobs:
-      - Test:
-          filters:
-            branches:
-              only: test4
-  build_and_deploy-qa:
-    jobs:
-      - QA:
-          filters:
-            branches:
-              only: test5
+	- aws-ecr/build-and-push-image:
+	  Test:
+        machine:
+          enabled: true
+        steps:
+          - run:
+              name: Test.
+              aws-access-key-id: AWS_ACCESS_KEY_ID
+              aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+              region: AWS_DEFAULT_REGIO
+              command: aws s3 cp s3://mypem-circleci
+	      command: ssh -i circle.pem ubuntu@13.235.68.44 'echo "wellcome to innobit" ';
